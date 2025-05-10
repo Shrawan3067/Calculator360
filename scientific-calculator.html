@@ -1,0 +1,654 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scientific Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#f5f4f7] min-h-screen flex flex-col items-center justify-center p-6">
+  <h1 class="text-[#6b7a85] font-semibold text-xl mb-1 text-center">
+    Scientific Calculator
+  </h1>
+  <p class="text-[#6b7a85] text-sm mb-10 text-center max-w-md">
+    A fully functional scientific calculator with real-life accurate calculations.
+  </p>
+  <div class="flex flex-col md:flex-row bg-[#f5f4f7] rounded-3xl shadow-[20px_20px_30px_#d6d9d6,-20px_-20px_30px_#ffffff] max-w-md w-full">
+    <div class="flex flex-col flex-1 p-8 space-y-4">
+      <div id="display" class="w-full h-20 rounded-3xl bg-[#f0f3f1] text-right text-3xl font-semibold text-[#4dbb8f] px-6 py-4 shadow-[inset_5px_5px_8px_#d6d9d6,inset_-5px_-5px_8px_#ffffff] overflow-x-auto select-text break-words">
+        0
+      </div>
+      <div class="grid grid-cols-6 gap-4 text-center text-sm font-semibold text-[#6b7a85]">
+        <!-- Row 1 -->
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3"
+          data-action="clear"
+          aria-label="Clear"
+        >
+          C
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-action="backspace"
+          aria-label="Backspace"
+        >
+          ⌫
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="sqrt"
+          aria-label="Square root"
+        >
+          √
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="square"
+          aria-label="Square"
+        >
+          x²
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="reciprocal"
+          aria-label="Reciprocal"
+        >
+          1/x
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-op="/"
+          aria-label="Divide"
+        >
+          ÷
+        </button>
+
+        <!-- Row 2 -->
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="sin"
+          aria-label="Sine"
+        >
+          sin
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="cos"
+          aria-label="Cosine"
+        >
+          cos
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="tan"
+          aria-label="Tangent"
+        >
+          tan
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="log"
+          aria-label="Logarithm base 10"
+        >
+          log
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="ln"
+          aria-label="Natural logarithm"
+        >
+          ln
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-op="*"
+          aria-label="Multiply"
+        >
+          ×
+        </button>
+
+        <!-- Row 3 -->
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="7"
+          aria-label="7"
+        >
+          7
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="8"
+          aria-label="8"
+        >
+          8
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="9"
+          aria-label="9"
+        >
+          9
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-op="-"
+          aria-label="Subtract"
+        >
+          −
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="pi"
+          aria-label="Pi"
+        >
+          π
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="e"
+          aria-label="Euler's number"
+        >
+          e
+        </button>
+
+        <!-- Row 4 -->
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="4"
+          aria-label="4"
+        >
+          4
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="5"
+          aria-label="5"
+        >
+          5
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="6"
+          aria-label="6"
+        >
+          6
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-op="+"
+          aria-label="Add"
+        >
+          +
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="exp"
+          aria-label="Exponent"
+        >
+          exp
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="abs"
+          aria-label="Absolute value"
+        >
+          |x|
+        </button>
+
+        <!-- Row 5 -->
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="1"
+          aria-label="1"
+        >
+          1
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="2"
+          aria-label="2"
+        >
+          2
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="3"
+          aria-label="3"
+        >
+          3
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="factorial"
+          aria-label="Factorial"
+        >
+          x!
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="open-paren"
+          aria-label="Open parenthesis"
+        >
+          (
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="close-paren"
+          aria-label="Close parenthesis"
+        >
+          )
+        </button>
+
+        <!-- Row 6 -->
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="0"
+          aria-label="0"
+          style="grid-column: span 2"
+        >
+          0
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-num="."
+          aria-label="Decimal point"
+        >
+          .
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-func="negate"
+          aria-label="Negate"
+        >
+          ±
+        </button>
+        <button
+          type="button"
+          class="btn-shadow rounded-xl py-3 hover:btn-active transition select-none"
+          data-action="equals"
+          aria-label="Equals"
+        >
+          =
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const display = document.getElementById("display");
+      let expression = "";
+      let lastInputType = null; // "num", "op", "func", "equals"
+
+      // Helper functions
+      function factorial(n) {
+        if (n < 0) return NaN;
+        if (n === 0 || n === 1) return 1;
+        let res = 1;
+        for (let i = 2; i <= n; i++) {
+          res *= i;
+        }
+        return res;
+      }
+
+      function safeEval(expr) {
+        // Replace safe math functions and constants
+        try {
+          // eslint-disable-next-line no-new-func
+          const f = new Function(
+            "Math",
+            "return " +
+              expr
+                .replace(/÷/g, "/")
+                .replace(/×/g, "*")
+                .replace(/−/g, "-")
+                .replace(/π/g, "Math.PI")
+                .replace(/e/g, "Math.E")
+                .replace(/(\d+)!/g, "factorial($1)")
+                .replace(/exp/g, "Math.exp")
+                .replace(/log/g, "Math.log10")
+                .replace(/ln/g, "Math.log")
+                .replace(/sqrt/g, "Math.sqrt")
+                .replace(/abs/g, "Math.abs")
+                .replace(/sin/g, "Math.sin")
+                .replace(/cos/g, "Math.cos")
+                .replace(/tan/g, "Math.tan")
+                .replace(/square/g, "square")
+                .replace(/reciprocal/g, "reciprocal")
+          );
+          return f(Math);
+        } catch {
+          return NaN;
+        }
+      }
+
+      function square(x) {
+        return x * x;
+      }
+      function reciprocal(x) {
+        return 1 / x;
+      }
+
+      // Append to expression safely
+      function appendToExpression(value, type) {
+        if (type === "num") {
+          if (lastInputType === "equals") {
+            expression = value;
+          } else {
+            expression += value;
+          }
+        } else if (type === "op") {
+          if (expression === "" && value !== "-") {
+            // Don't allow operator except minus at start
+            return;
+          }
+          if (lastInputType === "op") {
+            // Replace last operator
+            expression = expression.slice(0, -1) + value;
+          } else if (lastInputType === "equals") {
+            // Continue calculation with result
+            expression = display.textContent + value;
+          } else {
+            expression += value;
+          }
+        } else if (type === "func") {
+          if (lastInputType === "equals") {
+            expression = "";
+          }
+          expression += value;
+        }
+        lastInputType = type;
+        updateDisplay(expression);
+      }
+
+      function updateDisplay(text) {
+        display.textContent = text || "0";
+      }
+
+      function clearAll() {
+        expression = "";
+        lastInputType = null;
+        updateDisplay("0");
+      }
+
+      function backspace() {
+        if (lastInputType === "equals") {
+          clearAll();
+          return;
+        }
+        expression = expression.slice(0, -1);
+        if (expression === "") lastInputType = null;
+        updateDisplay(expression || "0");
+      }
+
+      function negate() {
+        if (lastInputType === "equals") {
+          let val = parseFloat(display.textContent);
+          if (isNaN(val)) return;
+          val = -val;
+          expression = val.toString();
+          updateDisplay(expression);
+          lastInputType = "num";
+          return;
+        }
+        // Try to negate last number in expression
+        const match = expression.match(/(-?\d*\.?\d+)$/);
+        if (match) {
+          const numStr = match[1];
+          const negated = (-parseFloat(numStr)).toString();
+          expression =
+            expression.slice(0, match.index) + negated;
+          updateDisplay(expression);
+        } else if (expression === "") {
+          expression = "-";
+          updateDisplay(expression);
+        }
+      }
+
+      // Handle function buttons
+      function handleFunction(func) {
+        if (func === "clear") {
+          clearAll();
+          return;
+        }
+        if (func === "backspace") {
+          backspace();
+          return;
+        }
+        if (func === "negate") {
+          negate();
+          return;
+        }
+        if (func === "factorial") {
+          // Append factorial symbol
+          if (lastInputType === "num") {
+            expression += "!";
+            lastInputType = "func";
+            updateDisplay(expression);
+          }
+          return;
+        }
+        if (func === "square") {
+          // Append square function call
+          if (lastInputType === "num") {
+            expression += "**2";
+            lastInputType = "func";
+            updateDisplay(expression);
+          }
+          return;
+        }
+        if (func === "reciprocal") {
+          // Wrap last number with reciprocal
+          const match = expression.match(/(\d*\.?\d+)$/);
+          if (match) {
+            const numStr = match[1];
+            expression =
+              expression.slice(0, match.index) +
+              `(1/(${numStr}))`;
+            lastInputType = "func";
+            updateDisplay(expression);
+          }
+          return;
+        }
+        if (func === "sqrt") {
+          expression += "sqrt(";
+          lastInputType = "func";
+          updateDisplay(expression);
+          return;
+        }
+        if (func === "sin" || func === "cos" || func === "tan") {
+          expression += func + "(";
+          lastInputType = "func";
+          updateDisplay(expression);
+          return;
+        }
+        if (func === "log") {
+          expression += "log(";
+          lastInputType = "func";
+          updateDisplay(expression);
+          return;
+        }
+        if (func === "ln") {
+          expression += "ln(";
+          lastInputType = "func";
+          updateDisplay(expression);
+          return;
+        }
+        if (func === "abs") {
+          expression += "abs(";
+          lastInputType = "func";
+          updateDisplay(expression);
+          return;
+        }
+        if (func === "exp") {
+          expression += "exp(";
+          lastInputType = "func";
+          updateDisplay(expression);
+          return;
+        }
+        if (func === "pi") {
+          if (lastInputType === "num") {
+            expression += "*Math.PI";
+          } else {
+            expression += "Math.PI";
+          }
+          lastInputType = "num";
+          updateDisplay(expression);
+          return;
+        }
+        if (func === "e") {
+          if (lastInputType === "num") {
+            expression += "*Math.E";
+          } else {
+            expression += "Math.E";
+          }
+          lastInputType = "num";
+          updateDisplay(expression);
+          return;
+        }
+        if (func === "open-paren") {
+          expression += "(";
+          lastInputType = "func";
+          updateDisplay(expression);
+          return;
+        }
+        if (func === "close-paren") {
+          expression += ")";
+          lastInputType = "func";
+          updateDisplay(expression);
+          return;
+        }
+      }
+
+      function calculate() {
+        if (expression === "") return;
+        try {
+          // Replace factorial with function call
+          let expr = expression.replace(/(\d+)!/g, "factorial($1)");
+          // Replace power operator ** with Math.pow for older browsers
+          // But modern browsers support ** so keep it
+          // Replace constants and functions for eval
+          expr = expr
+            .replace(/÷/g, "/")
+            .replace(/×/g, "*")
+            .replace(/−/g, "-")
+            .replace(/π/g, "Math.PI")
+            .replace(/e/g, "Math.E")
+            .replace(/log/g, "Math.log10")
+            .replace(/ln/g, "Math.log")
+            .replace(/sqrt/g, "Math.sqrt")
+            .replace(/abs/g, "Math.abs")
+            .replace(/sin/g, "Math.sin")
+            .replace(/cos/g, "Math.cos")
+            .replace(/tan/g, "Math.tan")
+            .replace(/exp/g, "Math.exp");
+
+          // eslint-disable-next-line no-new-func
+          const result = new Function(
+            "factorial",
+            "Math",
+            "return " + expr
+          )(factorial, Math);
+
+          if (result === undefined || isNaN(result)) {
+            updateDisplay("Error");
+            expression = "";
+            lastInputType = null;
+          } else {
+            const rounded = Math.round((result + Number.EPSILON) * 1e12) / 1e12;
+            updateDisplay(rounded.toString());
+            expression = rounded.toString();
+            lastInputType = "equals";
+          }
+        } catch {
+          updateDisplay("Error");
+          expression = "";
+          lastInputType = null;
+        }
+      }
+
+      // Event delegation for buttons
+      document.querySelector(".grid").addEventListener("click", (e) => {
+        if (!e.target.matches("button")) return;
+        const btn = e.target;
+        if (btn.hasAttribute("data-num")) {
+          appendToExpression(btn.getAttribute("data-num"), "num");
+        } else if (btn.hasAttribute("data-op")) {
+          appendToExpression(btn.getAttribute("data-op"), "op");
+        } else if (btn.hasAttribute("data-func")) {
+          handleFunction(btn.getAttribute("data-func"));
+        } else if (btn.hasAttribute("data-action")) {
+          const action = btn.getAttribute("data-action");
+          if (action === "clear") clearAll();
+          else if (action === "backspace") backspace();
+          else if (action === "equals") calculate();
+        }
+      });
+
+      // Keyboard support
+      window.addEventListener("keydown", (e) => {
+        if (
+          (e.key >= "0" && e.key <= "9") ||
+          e.key === "." ||
+          e.key === "(" ||
+          e.key === ")"
+        ) {
+          appendToExpression(e.key, "num");
+          e.preventDefault();
+        } else if (
+          e.key === "+" ||
+          e.key === "-" ||
+          e.key === "*" ||
+          e.key === "/"
+        ) {
+          appendToExpression(e.key, "op");
+          e.preventDefault();
+        } else if (e.key === "Enter" || e.key === "=") {
+          calculate();
+          e.preventDefault();
+        } else if (e.key === "Backspace") {
+          backspace();
+          e.preventDefault();
+        } else if (e.key.toLowerCase() === "c") {
+          clearAll();
+          e.preventDefault();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

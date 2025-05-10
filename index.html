@@ -1,0 +1,555 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="Icons/calz-logo.png">
+  <title>Calculators Categories</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#f0e6ef] min-h-screen flex flex-col items-center justify-center">
+
+    <nav role="navigation" aria-label="Primary Navigation">
+        <!-- Desktop Navigation with Logo -->
+        <div class="hidden md:flex items-center px-8 py-2">
+            <div class="logo-container">
+              <a href="index.html" class="flex">
+                <img src="Icons/calz-logo.png" alt="Company Logo" class="logo">
+                <img src="Icons/light-logo.png" alt="Company Logo" class="logo light-logo">
+                <img src="Icons/dark-logo.png" alt="Company Logo" class="logo dark-logo" style="display: none;">
+              </a>
+            </div>
+          <div class="input nav-group" role="group" aria-label="Navigation menu">
+            <button class="nav-button" id="home-btn" type="button">
+              <a href="index.html" class="nav-link currency-active">HOME</a>
+            </button>
+            <button class="nav-button" id="financial-btn" type="button">
+              <a href="fincancial-calculators.html" class="nav-link">FINANCIAL</a>
+            </button>
+            <button class="nav-button" id="health-btn" type="button">
+              <a href="health-and-physical-calculators.html" class="nav-link">HEALTH & FITNESS</a>
+            </button>
+            <button class="nav-button" id="math-btn" type="button">
+              <a href="math-calculators.html" class="nav-link">MATH</a>
+            </button>
+            <button class="nav-button" id="science-btn" type="button">
+              <a href="science-calculators.html" class="nav-link">SCIENCE</a>
+            </button>
+          </div>
+<!-- Desktop Navbar Button -->
+<button
+    id="desktop-theme-toggle"
+    class="theme-toggle neumorphic-inset rounded-full p-2 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-green-500 transition"
+    type="button"
+    title="Toggle dark/light theme"
+    aria-label="Toggle dark/light theme">
+    <i class="fas fa-moon desktop-theme-icon"></i>
+</button>
+        </div>
+  
+        <!-- Mobile Navigation with Logo -->
+        <div class="md:hidden flex justify-between items-center p-2">
+ <!-- Mobile Navbar Button -->
+<button
+    id="mobile-theme-toggle"
+    class="theme-toggle neumorphic-inset rounded-full p-2 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-green-500 transition"
+    type="button"
+    title="Toggle dark/light theme"
+    aria-label="Toggle dark/light theme">
+    <i class="fas fa-moon mobile-theme-icon"></i>
+</button>
+          
+            <div class="logo-container w-[150px] mr-[1rem]">
+              <a href="index.html" class="flex">
+                <img src="Icons/calz-logo.png" alt="Company Logo" class="logo">
+                <img src="Icons/light-logo.png" alt="Company Logo" class="logo light-logo">
+                <img src="Icons/dark-logo.png" alt="Company Logo" class="logo dark-logo" style="display: none;">
+              </a>
+            </div>
+
+
+          <button id="mobile-menu-button" class="rounded-md focus:outline-none">
+              <div class="line" id="line1"></div>
+              <div class="line" id="line2"></div>
+              <div class="line" id="line3"></div>
+              <div class="line" id="line4"></div>
+          </button>
+          
+        </div>
+  
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#f5f4f7] shadow-lg">
+          <div class="input flex flex-col space-y-2 p-4">
+            <button class="nav-button" id="mobile-home-btn" type="button">
+              <a href="index.html" class="nav-link currency-active text-center">HOME</a>
+            </button>
+            <button class="nav-button" id="mobile-financial-btn" type="button">
+              <a href="fincancial-calculators.html" class="nav-link text-center">FINANCIAL</a>
+            </button>
+            <button class="nav-button" id="mobile-health-btn" type="button">
+              <a href="health-and-physical-calculators.html" class="nav-link text-center">HEALTH & FITNESS</a>
+            </button>
+            <button class="nav-button" id="mobile-math-btn" type="button">
+              <a href="math-calculators.html" class="nav-link text-center">MATH</a>
+            </button>
+            <button class="nav-button" id="mobile-science-btn" type="button">
+              <a href="science-calculators.html" class="nav-link text-center">SCIENCE</a>
+            </button>
+          </div>
+        </div>
+    </nav>
+
+    <main class="rounded-3xl flex flex-col gap-10 md:flex-row md:justify-between w-full max-w-4xl mb-12">
+        <section class="calc flex flex-col md:flex-row bg-[#f0e6ef] rounded-3xl shadow-[10px_10px_20px_#c2c1be,-10px_-10px_20px_#f5f4f7] max-w-md w-full">
+            <div class="flex flex-col flex-1 p-6 space-y-4">
+              <div id="display" class="input w-full h-20 rounded-3xl bg-[#f0f3f1] text-right text-3xl font-semibold text-[#4dbb8f] px-6 py-4 shadow-[inset_5px_5px_8px_#d6d9d6,inset_-5px_-5px_8px_#ffffff] overflow-x-auto select-text break-words">
+                0
+              </div>
+              <div class="grid grid-cols-6 gap-4 text-center text-sm font-semibold text-[#6b7a85]">
+                <!-- Row 1 -->
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-action="clear"
+                  aria-label="Clear"
+                >
+                  C
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-action="backspace"
+                  aria-label="Backspace"
+                >
+                  ⌫
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="sqrt"
+                  aria-label="Square root"
+                >
+                  √
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="square"
+                  aria-label="Square"
+                >
+                  x²
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="reciprocal"
+                  aria-label="Reciprocal"
+                >
+                  1/x
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-op="/"
+                  aria-label="Divide"
+                >
+                  ÷
+                </button>
+        
+                <!-- Row 2 -->
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="sin"
+                  aria-label="Sine"
+                >
+                  sin
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="cos"
+                  aria-label="Cosine"
+                >
+                  cos
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="tan"
+                  aria-label="Tangent"
+                >
+                  tan
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="log"
+                  aria-label="Logarithm base 10"
+                >
+                  log
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="ln"
+                  aria-label="Natural logarithm"
+                >
+                  ln
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-op="*"
+                  aria-label="Multiply"
+                >
+                  ×
+                </button>
+        
+                <!-- Row 3 -->
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="7"
+                  aria-label="7"
+                >
+                  7
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="8"
+                  aria-label="8"
+                >
+                  8
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="9"
+                  aria-label="9"
+                >
+                  9
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-op="-"
+                  aria-label="Subtract"
+                >
+                  −
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="pi"
+                  aria-label="Pi"
+                >
+                  π
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="e"
+                  aria-label="Euler's number"
+                >
+                  e
+                </button>
+        
+                <!-- Row 4 -->
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="4"
+                  aria-label="4"
+                >
+                  4
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="5"
+                  aria-label="5"
+                >
+                  5
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="6"
+                  aria-label="6"
+                >
+                  6
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-op="+"
+                  aria-label="Add"
+                >
+                  +
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="exp"
+                  aria-label="Exponent"
+                >
+                  exp
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="abs"
+                  aria-label="Absolute value"
+                >
+                  |x|
+                </button>
+        
+                <!-- Row 5 -->
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="1"
+                  aria-label="1"
+                >
+                  1
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="2"
+                  aria-label="2"
+                >
+                  2
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="3"
+                  aria-label="3"
+                >
+                  3
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="factorial"
+                  aria-label="Factorial"
+                >
+                  x!
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="open-paren"
+                  aria-label="Open parenthesis"
+                >
+                  (
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="close-paren"
+                  aria-label="Close parenthesis"
+                >
+                  )
+                </button>
+        
+                <!-- Row 6 -->
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="0"
+                  aria-label="0"
+                  style="grid-column: span 2"
+                >
+                  0
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-num="."
+                  aria-label="Decimal point"
+                >
+                  .
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-func="negate"
+                  aria-label="Negate"
+                >
+                  ±
+                </button>
+                <button
+                  type="button"
+                  class="neumorphic-inset rounded-xl py-3"
+                  data-action="equals"
+                  aria-label="Equals"
+                >
+                  =
+                </button>
+            </div>
+          </div>
+        </section>
+ 
+    <section>
+        <form class="search flex flex-col sm:flex-row max-w-md w-full space-y-4 sm:space-y-0 bg-[#f0e6ef] rounded-xl shadow-[10px_10px_20px_#c2c1be,-10px_-10px_20px_#f5f4f7] p-4">
+    <input 
+      type="search"
+      placeholder="Search..."
+      aria-label="Search"
+      class="input neumorphic-input flex-grow px-6 py-3 md:w-[290px] text-[#4b4b4b] text-lg font-semibold placeholder:text-[#a1a9a9]"
+    /> 
+    <button
+      type="submit"
+      class="neumorphic-button px-8 py-3 text-[1.5rem] font-semibold select-none"
+      aria-label="Submit search"
+    >
+    <i class="fas fa-search"></i>
+    </button>
+  </form>
+    </section>
+    </main>
+
+      <!-- Column 1 -->
+      <div class="calc-card max-w-4xl mx-full h-auto flex flex-row bg-[#f0e6ef] rounded-3xl shadow-[10px_10px_20px_#c2c1be,-10px_-10px_20px_#f5f4f7] p-6 mb-12">
+        <!-- Financial Calculators Card -->
+        <div class="mb-10">
+          <a href="financial-calculator.html" class="block mb-3">
+            <h3 class="text-[#3bb673] font-semibold text-xl hover:underline">
+              Financial Calculators
+            </h3>
+          </a>
+          <ul class="calc-list list-none space-y-2 text-[#6b7a86] text-s font-semibold">
+            <li>
+              <a href="loan-calculator.html" class="hover:text-[#3bb673] transition">Loan Calculator</a>
+            </li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Mortgage Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Auto Loan Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Interest Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Payment Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Retirement Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Amortization Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Investment Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Finance Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Salary Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Sales Tax Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Income Tax Calculator</a></li>
+            <li>
+              <a href="compound-interest-calculator.html" class="hover:text-[#3bb673] transition">Compound Interest Calculator</a>
+            </li>
+          </ul>
+        </div>
+  
+              <!-- Health & Fitness Calculators Card -->
+        <div class="mb-10">
+          <a href="health-and-fitness-calulator.html" class="block mb-3">
+            <h3 class="text-[#3bb673] font-semibold text-xl hover:underline">
+              Health & Fitness Calculators
+            </h3>
+          </a>
+          <ul class="calc-list list-none space-y-2 text-[#6b7a86] text-s font-semibold">
+            <li>
+              <a href="bmi-calculator.html" class="hover:text-[#3bb673] transition">BMI Calculator</a>
+            </li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Calorie Burn Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Calorie Intake Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Protein Intake Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Carb Intake Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Fat Intake Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Weight Loss Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Pregnancy Due Date Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Ovulation Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Ideal Weight Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">BMR Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Pace Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Step-to-Distance Calculator</a></li>
+          </ul>
+        </div>
+
+                              <!-- Math Calculators Card -->
+        <div class="mb-10">
+          <a href="math-calculator.html" class="block mb-3">
+            <h3 class="text-[#3bb673] font-semibold text-xl hover:underline">
+              Math Calculators
+            </h3>
+          </a>
+          <ul class="calc-list list-none space-y-2 text-[#6b7a86] text-s font-semibold">
+            <li>
+              <a href="scientific-calculator.html" class="hover:text-[#3bb673] transition">Scientific Calculator</a>
+            </li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Fraction Calculator</a></li>
+            <li>
+              <a href="percentage-calculator.html" class="hover:text-[#3bb673] transition">Percentage Calculator</a>
+            </li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Exponent Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Modulo Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Area Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Perimeter Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Volume Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Triangle Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Circle Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Angle Calculator</a></li>
+            <li><a href="#" class="hover:text-[#3bb673] transition">Random Number Generator</a></li>
+          </ul>
+        </div>
+
+                          
+        <!-- Science Calculators Card -->
+        <div class="mb-10">
+            <a href="science-calculator.html" class="block mb-3">
+              <h3 class="text-[#3bb673] font-semibold text-xl hover:underline">
+                Science Calculators
+              </h3>
+            </a>
+            <ul class="calc-list list-none space-y-2 text-[#6b7a86] text-s font-semibold">
+              <li><a href="#" class="hover:text-[#3bb673] transition">Kinetic Energy Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Potential Energy Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Momentum Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Acceleration Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Work Done Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Power Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Speed & Velocity Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Projectile Motion Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Circular Motion Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Density Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Molar Mass Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">Avogadro's Number Calculator</a></li>
+              <li><a href="#" class="hover:text-[#3bb673] transition">pH Calculator</a></li>
+            </ul>
+        </div>
+  
+        <!-- Other Calculators Card -->
+        <div class="mb-10">
+                  <a href="other-calculator.html" class="block mb-3">
+                    <h3 class="text-[#3bb673] font-semibold text-xl hover:underline">
+                      Other Calculators
+                    </h3>
+                  </a>
+                  <ul class="calc-list list-none space-y-2 text-[#6b7a86] text-s font-semibold">
+                    <li><a href="#" class="hover:text-[#3bb673] transition">Age Calculator</a></li>
+                    <li><a href="#" class="hover:text-[#3bb673] transition">Time Duration Calculator</a></li>
+                    <li><a href="#" class="hover:text-[#3bb673] transition">World Time Zone Converter</a></li>
+                    <li><a href="#" class="hover:text-[#3bb673] transition">Fuel Cost Calculator</a></li>
+                    <li><a href="#" class="hover:text-[#3bb673] transition">Flight Time Calculator</a></li>
+                    <li><a href="#" class="hover:text-[#3bb673] transition">GPA Calculator</a></li>
+                    <li><a href="#" class="hover:text-[#3bb673] transition">Typing Speed Calculator</a></li>
+                    <li><a href="#" class="hover:text-[#3bb673] transition">Password Strength Calculator</a></li>
+                    <li><a href="#" class="hover:text-[#3bb673] transition">Password Generator</a></li>
+                    <li><a href="#" class="hover:text-[#3bb673] transition">Love Calculator</a></li>
+                    <li><a href="#" class="hover:text-[#3bb673] transition">Tiktok Engagement Calculator</a></li>
+                  </ul>
+        </div>
+
+            
+        <!-- Science Calculators Card -->
+        <div class="mb-10 w-[15.5rem] ads"></div>
+      </div>
+
+      <script src="script.js"></script>
+      <script src="toggle.js"></script>
+</body>
+</html>

@@ -11,7 +11,7 @@
 </head>
 <body class="bg-[#f0e6ef] min-h-screen flex flex-col items-center justify-center">
 
-    <nav role="navigation" aria-label="Primary Navigation">
+    <nav role="navigation" aria-label="Primary Navigation" class="fixed top-0 left-0 right-0 z-50 bg-[#f0e6ef] shadow-lg">
         <!-- Desktop Navigation with Logo -->
         <div class="hidden md:flex items-center px-8 py-2">
             <div class="logo-container">
@@ -41,7 +41,7 @@
 <!-- Desktop Navbar Button -->
 <button
     id="desktop-theme-toggle"
-    class="theme-toggle neumorphic-inset rounded-full p-2 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-green-500 transition"
+    class="theme-toggle neumorphic-inset rounded-full p-2 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-green-500"
     type="button"
     title="Toggle dark/light theme"
     aria-label="Toggle dark/light theme">
@@ -54,7 +54,7 @@
  <!-- Mobile Navbar Button -->
 <button
     id="mobile-theme-toggle"
-    class="theme-toggle neumorphic-inset rounded-full p-2 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-green-500 transition"
+    class="theme-toggle neumorphic-inset rounded-full p-2 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-green-500"
     type="button"
     title="Toggle dark/light theme"
     aria-label="Toggle dark/light theme">
@@ -110,25 +110,63 @@
     Estimate your investment growth over time
   </p>
   <main class="calc-card bg-[#f0e6ef] rounded-3xl shadow-[10px_10px_20px_#c2c1be,-10px_-10px_20px_#f5f4f7] flex flex-col md:flex-row w-full max-w-4xl">
-    <section class="flex flex-col items-center justify-center flex-1 p-10 md:p-16 border-r border-[#e6e9e6]">
-      <img alt="Outline of a piggy bank with a coin dropping into it, in light gray lines" class="w-36 h-36 mb-8" height="150" src="https://storage.googleapis.com/a1aa/image/0c67606c-3c16-4705-3d1f-e6a7bed0ef07.jpg" width="150"/>
-      <p class="text-[#9ea6a9] uppercase text-sm tracking-widest mb-2">
-        End Balance:
-      </p>
-      <p class="text-[#4dbb8f] font-semibold text-4xl md:text-5xl" id="end-balance">
-        $53,562.15
-      </p>
+    <section class="flex flex-col items-center justify-center flex-1 p-6 md:p-16 border-r border-[#e6e9e6]">
+      <div class="w-full h-64 mb-6 md:mb-8">
+        <canvas id="compoundChart"></canvas>
+      </div>
+      <div class="space-y-4 md:space-y-6">
+        <div class="text-center">
+          <p class="text-[#9ea6a9] uppercase text-xs md:text-sm tracking-widest mb-1 md:mb-2">
+            Initial Principal:
+          </p>
+          <p class="text-[#4dbb8f] font-semibold text-xl md:text-2xl" id="initial-principal">
+            $10,000.00
+          </p>
+        </div>
+        <div class="text-center">
+          <p class="text-[#9ea6a9] uppercase text-xs md:text-sm tracking-widest mb-1 md:mb-2">
+            Total Contributions:
+          </p>
+          <p class="text-[#4dbb8f] font-semibold text-xl md:text-2xl" id="total-contributions">
+            $0.00
+          </p>
+        </div>
+        <div class="text-center">
+          <p class="text-[#9ea6a9] uppercase text-xs md:text-sm tracking-widest mb-1 md:mb-2">
+            Total Interest:
+          </p>
+          <p class="text-[#4dbb8f] font-semibold text-xl md:text-2xl" id="total-interest">
+            $43,562.15
+          </p>
+        </div>
+        <div class="text-center">
+          <p class="text-[#9ea6a9] uppercase text-xs md:text-sm tracking-widest mb-1 md:mb-2">
+            Estimated Tax:
+          </p>
+          <p class="text-[#4dbb8f] font-semibold text-xl md:text-2xl" id="estimated-tax">
+            $0.00
+          </p>
+        </div>
+        <div class="text-center">
+          <p class="text-[#9ea6a9] uppercase text-xs md:text-sm tracking-widest mb-1 md:mb-2">
+            Ending Balance:
+          </p>
+          <p class="text-[#4dbb8f] font-semibold text-2xl md:text-4xl" id="end-balance">
+            $53,562.15
+          </p>
+        </div>
+      </div>
     </section>
-    <section class="flex flex-col flex-1 p-8 md:p-12 space-y-6">
-      <div class="max-w-xs mx-auto w-full">
-        <div class="rounded-xl flex justify-center text-xs text-[#9ea6a9] font-semibold w-full mb-5 max-w-xs mx-auto">
-            <div class="w-full text-[0.75rem] currency-active px-3 py-3 rounded-full" id="home-btn" type="button">
+    <section class="flex flex-col flex-1 p-4 md:p-12 space-y-4 md:space-y-6">
+      <div class="w-full">
+        <div class="rounded-xl flex justify-center text-xs text-[#9ea6a9] font-semibold w-full mb-3 md:mb-5">
+            <div class="w-full text-[0.75rem] currency-active px-3 py-2 md:py-3 rounded-full" id="home-btn" type="button">
               MODIFY THE VALUES AND GET INSTANT RESULTS
             </div>
            </div>
-        <label class="font-semibold text-[0.625rem] text-[#9ea6a9] tracking-[0.1em] mt-3 mb-1 block" for="principal">Initial Investment*:</label>
+        <label class="font-semibold text-[0.625rem] md:text-[0.75rem] text-[#9ea6a9] tracking-[0.1em] mt-3 mb-1 block" for="principal">Initial Investment*:</label>
         <input
-          class="input w-full rounded-xl bg-[#f7f9f7] py-2 px-4 text-sm text-[#4b4b4b] shadow-[inset_5px_5px_8px_#d9e0d9,inset_-5px_-5px_8px_#ffffff] outline-none border-none transition-shadow duration-300 focus:shadow-[inset_2px_2px_5px_#c0c7c0,inset_-2px_-2px_5px_#ffffff]"
+          class="input w-full rounded-xl bg-[#f7f9f7] py-2 px-4 text-sm md:text-base text-[#4b4b4b] shadow-[inset_5px_5px_8px_#d9e0d9,inset_-5px_-5px_8px_#ffffff] outline-none border-none transition-shadow duration-300 focus:shadow-[inset_2px_2px_5px_#c0c7c0,inset_-2px_-2px_5px_#ffffff]"
           id="principal"
           type="text"
           inputmode="decimal"
@@ -139,9 +177,9 @@
         />
         <p id="principal-desc" class="sr-only">Enter the initial amount of money invested or loaned.</p>
 
-        <label class="font-semibold text-[0.625rem] text-[#9ea6a9] tracking-[0.1em] mt-3 mb-1 mb-1 block" for="annual-contrib">Annual Contribution:</label>
+        <label class="font-semibold text-[0.625rem] md:text-[0.75rem] text-[#9ea6a9] tracking-[0.1em] mt-3 mb-1 block" for="annual-contrib">Annual Contribution:</label>
         <input
-          class="input w-full rounded-xl bg-[#f7f9f7] py-2 px-4 text-sm text-[#4b4b4b] shadow-[inset_5px_5px_8px_#d9e0d9,inset_-5px_-5px_8px_#ffffff] outline-none border-none transition-shadow duration-300 focus:shadow-[inset_2px_2px_5px_#c0c7c0,inset_-2px_-2px_5px_#ffffff]"
+          class="input w-full rounded-xl bg-[#f7f9f7] py-2 px-4 text-sm md:text-base text-[#4b4b4b] shadow-[inset_5px_5px_8px_#d9e0d9,inset_-5px_-5px_8px_#ffffff] outline-none border-none transition-shadow duration-300 focus:shadow-[inset_2px_2px_5px_#c0c7c0,inset_-2px_-2px_5px_#ffffff]"
           id="annual-contrib"
           type="text"
           inputmode="decimal"
@@ -151,9 +189,9 @@
         />
         <p id="annual-contrib-desc" class="sr-only">Enter the amount contributed annually.</p>
 
-        <label class="font-semibold text-[0.625rem] text-[#9ea6a9] tracking-[0.1em] mt-3 mb-1 block" for="monthly-contrib">Monthly Contribution:</label>
+        <label class="font-semibold text-[0.625rem] md:text-[0.75rem] text-[#9ea6a9] tracking-[0.1em] mt-3 mb-1 block" for="monthly-contrib">Monthly Contribution:</label>
         <input
-          class="input w-full rounded-xl bg-[#f7f9f7] py-2 px-4 text-sm text-[#4b4b4b] shadow-[inset_5px_5px_8px_#d9e0d9,inset_-5px_-5px_8px_#ffffff] outline-none border-none transition-shadow duration-300 focus:shadow-[inset_2px_2px_5px_#c0c7c0,inset_-2px_-2px_5px_#ffffff]"
+          class="input w-full rounded-xl bg-[#f7f9f7] py-2 px-4 text-sm md:text-base text-[#4b4b4b] shadow-[inset_5px_5px_8px_#d9e0d9,inset_-5px_-5px_8px_#ffffff] outline-none border-none transition-shadow duration-300 focus:shadow-[inset_2px_2px_5px_#c0c7c0,inset_-2px_-2px_5px_#ffffff]"
           id="monthly-contrib"
           type="text"
           inputmode="decimal"
@@ -265,6 +303,8 @@
         </button>
     </section>
   </main>
+
+
 
   <article class="calc-card max-w-4xl bg-[#f0e6ef] rounded-3xl shadow-[10px_10px_20px_#c2c1be,-10px_-10px_20px_#f5f4f7] p-8 mt-12 mb-12 text-[#4b4b4b] leading-relaxed">
     <h1 class="text-2xl font-semibold text-[#2f855a] mb-4">Ultimate Guide to Using a Compound Interest Calculator for Smart Investing</h1>
@@ -408,6 +448,9 @@
     <p><em>For more financial tools and advice, explore our <a href="#" title="Financial Resources" class="text-[#2f855a] hover:underline">financial resources</a> and calculators.</em></p>
   </article>
 
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="chart.js"></script>
   <script src="script.js"></script>
   <script src="toggle.js"></script>
   <script>
@@ -486,12 +529,21 @@ function parseCurrency(value) {
   monthlyContribInput.addEventListener('blur', formatInputOnBlur);
   
   // Calculate on button click
-  calculateBtn.addEventListener('click', calculate);
+  calculateBtn.addEventListener('click', () => {
+    calculate();
+    const initialInvestment = parseFloat(parseCurrency(document.getElementById('principal').value));
+    const totalContributions = parseFloat(parseCurrency(document.getElementById('total-contributions').textContent));
+    const totalInterest = parseFloat(parseCurrency(document.getElementById('total-interest').textContent));
+    
+    // Update chart with new values
+    if (window.compoundChart) {
+      window.compoundChart.destroy();
+    }
+    window.compoundChart = updateChart(initialInvestment, totalContributions, totalInterest);
+  });
   
   // Initial setup
   calculate();
-
-
   </script>
 </body>
 </html>

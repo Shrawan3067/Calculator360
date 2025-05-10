@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Restore transitions after theme is applied
     document.documentElement.style.transition = '';
+    
+    // Save theme state immediately
+    localStorage.setItem('theme', theme);
   }
 
   // Save theme to localStorage before page unload

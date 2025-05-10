@@ -6,7 +6,6 @@
 body {
   font-family: "Inter", sans-serif;
   opacity: 1;
-  transition: opacity 300ms ease-in-out;
 }
 
 /* ================ */
@@ -42,7 +41,7 @@ nav {
   padding: 0.75rem 1.75rem;
   border-radius: 40px;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   cursor: pointer;
 }
 
@@ -64,7 +63,7 @@ nav {
   border-radius: 40px;
   box-shadow: inset 5px 5px 8px #d6d9d6, inset -5px -5px 8px #ffffff;
   padding: 0.25rem;
-  margin-right: 3rem;
+  margin-right: 3.5rem;
   margin-left: 3rem;
 }
 
@@ -149,7 +148,7 @@ nav {
   background: linear-gradient(to right, #8de0a6, #3db3a6) !important;
   color: white !important;
   box-shadow: inset 4px 4px 7px #2a7f75, inset -4px -4px 7px #6dd1b3 !important;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  /* transition: background 0.3s ease, box-shadow 0.3s ease; */
 }
 
 .neumorphic-button:hover {

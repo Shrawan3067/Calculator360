@@ -1,0 +1,1160 @@
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Scientific Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+    body {
+      font-family: "Inter", sans-serif;
+    }
+    .neumorphic-inset {
+      box-shadow: inset 6px 6px 8px #d9dcd9, inset -6px -6px 8px #ffffff;
+    }
+    .neumorphic {
+      box-shadow: 6px 6px 8px #d9dcd9, -6px -6px 8px #ffffff;
+    }
+    button:active {
+      box-shadow: inset 6px 6px 8px #d9dcd9, inset -6px -6px 8px #ffffff !important;
+    }
+    /* Scrollbar for input */
+    #input::-webkit-scrollbar {
+      height: 6px;
+    }
+    #input::-webkit-scrollbar-thumb {
+      background: #8adf9f;
+      border-radius: 3px;
+    }
+    #input::-webkit-scrollbar-track {
+      background: #f0f3f1;
+    }
+    /* Dark mode styles - darker version */
+    .dark body {
+      background-color: #0f172a; /* darker navy */
+      color: #cbd5e1;
+    }
+    .dark #display {
+      color: #4ade80;
+    }
+    .dark #input {
+      background-color: #1e293b; /* darker slate */
+      color: #cbd5e1;
+      box-shadow: inset 6px 6px 8px #0f172a, inset -6px -6px 8px #334155;
+    }
+    .dark .neumorphic-inset {
+      box-shadow: inset 6px 6px 8px #0f172a, inset -6px -6px 8px #334155;
+      color: #cbd5e1;
+    }
+    .dark .neumorphic-inset:hover {
+      color: #a3e635;
+    }
+    .dark .neumorphic {
+      box-shadow: 6px 6px 8px #0f172a, -6px -6px 8px #334155;
+    }
+    .dark main {
+      background-color: #1e293b; /* darker slate */
+      box-shadow: 20px 20px 30px #0f172a, -20px -20px 30px #334155;
+    }
+    .dark header p {
+      color: #94a3b8;
+    }
+    .dark header h1 {
+      color: #cbd5e1;
+    }
+    .dark button.bg-gradient-to-r {
+      background-image: linear-gradient(to right, #4ade80, #22c55e);
+    }
+    .dark button.bg-gradient-to-r:hover {
+      filter: brightness(1.1);
+    }
+    /* Navbar styles */
+    nav {
+      background-color: #f7f9f7;
+      box-shadow: 6px 6px 8px #d9dcd9, -6px -6px 8px #ffffff;
+    }
+    .dark nav {
+      background-color: #1e293b; /* darker slate */
+      box-shadow: 6px 6px 8px #0f172a, -6px -6px 8px #334155;
+    }
+    nav a {
+      color: #4b5563; /* text-gray-600 */
+      font-weight: 600;
+      font-size: 0.875rem; /* text-sm */
+      padding: 0.5rem 1rem; /* px-4 py-2 */
+      border-radius: 0.75rem; /* rounded-xl */
+      text-decoration: none;
+      user-select: none;
+    }
+    nav a:hover {
+      color: #22c55e; /* text-green-500 */
+    }
+    .dark nav a {
+      color: #d1d5db; /* text-gray-300 */
+    }
+    .dark nav a:hover {
+      color: #a3e635; /* text-green-400 */
+    }
+    nav a.active {
+      color: #22c55e; /* text-green-500 */
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body class="bg-[#f0f3f1] min-h-screen flex flex-col items-center justify-start p-4">
+  <nav
+    class="w-full max-w-4xl rounded-3xl mb-8 p-4 flex justify-between items-center select-none"
+    role="navigation"
+    aria-label="Primary Navigation"
+  >
+    <div class="flex space-x-2 md:space-x-6">
+      <a href="index.html" class="nav-link" id="nav-home">Home</a>
+      <a href="financial.html" class="nav-link" id="nav-financial">Financial</a>
+      <a href="math.html" class="nav-link" id="nav-math">Math</a>
+      <a href="science.html" class="nav-link" id="nav-science">Science</a>
+    </div>
+    <button
+      id="theme-toggle"
+      aria-label="Toggle dark/light theme"
+      class="neumorphic-inset rounded-full p-2 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-green-500"
+      type="button"
+      title="Toggle dark/light theme"
+    >
+      <i class="fas fa-moon" id="theme-icon"></i>
+    </button>
+  </nav>
+
+  <!-- Content container -->
+  <main
+    class="bg-[#f7f9f7] rounded-3xl shadow-[20px_20px_30px_#d9dcd9,-20px_-20px_30px_#ffffff] max-w-4xl w-full overflow-hidden p-6 md:p-10"
+    id="content"
+  >
+    <!-- Content will be loaded here by JS -->
+  </main>
+
+  <script>
+    (() => {
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+      const contentEl = document.getElementById("content");
+      const navLinks = document.querySelectorAll("nav a.nav-link");
+
+      // Theme toggle logic
+      function setTheme(dark) {
+        if (dark) {
+          document.documentElement.classList.add("dark");
+          themeIcon.classList.remove("fa-moon");
+          themeIcon.classList.add("fa-sun");
+          localStorage.setItem("theme", "dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          themeIcon.classList.remove("fa-sun");
+          themeIcon.classList.add("fa-moon");
+          localStorage.setItem("theme", "light");
+        }
+      }
+
+      // Initialize theme from localStorage or system preference
+      const savedTheme = localStorage.getItem("theme");
+      if (
+        savedTheme === "dark" ||
+        (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        setTheme(true);
+      } else {
+        setTheme(false);
+      }
+
+      themeToggleBtn.addEventListener("click", () => {
+        const isDark = document.documentElement.classList.contains("dark");
+        setTheme(!isDark);
+      });
+
+      // Navigation active link highlight
+      function setActiveLink(path) {
+        navLinks.forEach((link) => {
+          if (link.getAttribute("href") === path) {
+            link.classList.add("active");
+            link.setAttribute("aria-current", "page");
+          } else {
+            link.classList.remove("active");
+            link.removeAttribute("aria-current");
+          }
+        });
+      }
+
+      // Load page content based on current URL path
+      function loadPage() {
+        const path = window.location.pathname.split("/").pop() || "index.html";
+        setActiveLink(path);
+
+        switch (path) {
+          case "index.html":
+          case "":
+            loadHome();
+            break;
+          case "financial.html":
+            loadFinancial();
+            break;
+          case "math.html":
+            loadMath();
+            break;
+          case "science.html":
+            loadScience();
+            break;
+          default:
+            loadNotFound();
+            break;
+        }
+      }
+
+      // Home page content
+      function loadHome() {
+        document.title = "Home - Scientific Calculator";
+        contentEl.innerHTML = `
+          <section class="text-center p-10">
+            <h1 class="text-2xl font-semibold mb-4 dark:text-gray-300">Welcome to the Scientific Calculator App</h1>
+            <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">Use the navigation menu to access different calculators and tools.</p>
+          </section>
+        `;
+      }
+
+      // Financial page content (placeholder)
+      function loadFinancial() {
+        document.title = "Financial Calculator";
+        contentEl.innerHTML = `
+          <section class="text-center p-10">
+            <h1 class="text-2xl font-semibold mb-4 dark:text-gray-300">Financial Calculator</h1>
+            <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">This page is under construction. Please check back later for financial calculation tools.</p>
+          </section>
+        `;
+      }
+
+      // Math page content (placeholder)
+      function loadMath() {
+        document.title = "Math Calculator";
+        contentEl.innerHTML = `
+          <section class="text-center p-10">
+            <h1 class="text-2xl font-semibold mb-4 dark:text-gray-300">Math Calculator</h1>
+            <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">This page is under construction. Please check back later for math calculation tools.</p>
+          </section>
+        `;
+      }
+
+      // Scientific calculator page content (full calculator UI)
+      function loadScience() {
+        document.title = "Scientific Calculator";
+        contentEl.innerHTML = `
+          <section class="flex flex-col md:flex-row overflow-hidden">
+            <section
+              class="flex flex-col items-center justify-center flex-1 p-6 md:p-10 border-r border-[#e6e9e6] dark:border-[#334155] select-none"
+              id="result-section"
+            >
+              <img
+                alt="Outline icon of a scientific calculator with buttons and display"
+                class="w-36 h-36 mb-6"
+                height="150"
+                src="https://storage.googleapis.com/a1aa/image/710c4b05-3ec3-44ea-f855-4747427fc44e.jpg"
+                width="150"
+              />
+              <p class="text-gray-400 uppercase tracking-widest text-sm mb-1 dark:text-gray-400">
+                Result:
+              </p>
+              <p
+                class="text-green-500 font-semibold text-4xl md:text-5xl break-words text-center min-h-[3rem] w-full select-text dark:text-green-400"
+                id="display"
+                >0</p
+              >
+            </section>
+            <section
+              class="flex-1 p-4 md:p-8 flex flex-col space-y-5"
+              id="calculator-section"
+            >
+              <input
+                aria-label="Calculator input and result display"
+                class="w-full rounded-xl bg-[#f0f3f1] py-3 px-4 text-gray-700 font-semibold text-lg shadow-[inset_6px_6px_8px_#d9dcd9,inset_-6px_-6px_8px_#ffffff] focus:outline-none mb-4 select-text overflow-x-auto whitespace-nowrap dark:bg-[#1e293b] dark:text-gray-300 dark:shadow-[inset_6px_6px_8px_#0f172a,inset_-6px_-6px_8px_#334155]"
+                id="input"
+                readonly
+                type="text"
+              />
+              <div class="grid grid-cols-6 gap-4 text-gray-600 font-semibold text-sm select-none dark:text-gray-300">
+                <!-- Row 1 -->
+                <button
+                  aria-label="Clear"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="clear"
+                  type="button"
+                  >C</button
+                >
+                <button
+                  aria-label="All Clear"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="all-clear"
+                  type="button"
+                  >AC</button
+                >
+                <button
+                  aria-label="Backspace"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="backspace"
+                  type="button"
+                  ><i class="fas fa-backspace"></i
+                ></button>
+                <button
+                  aria-label="Open parenthesis"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="("
+                  type="button"
+                  >(</button
+                >
+                <button
+                  aria-label="Close parenthesis"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value=")"
+                  type="button"
+                  >)</button
+                >
+                <button
+                  aria-label="Divide"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="/"
+                  type="button"
+                  >÷</button
+                >
+
+                <!-- Row 2 -->
+                <button
+                  aria-label="sin"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="sin"
+                  type="button"
+                  >sin</button
+                >
+                <button
+                  aria-label="cos"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="cos"
+                  type="button"
+                  >cos</button
+                >
+                <button
+                  aria-label="tan"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="tan"
+                  type="button"
+                  >tan</button
+                >
+                <button
+                  aria-label="Exponent"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="**"
+                  type="button"
+                  >^</button
+                >
+                <button
+                  aria-label="Square root"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="sqrt"
+                  type="button"
+                  >√</button
+                >
+                <button
+                  aria-label="Factorial"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="factorial"
+                  type="button"
+                  >x!</button
+                >
+
+                <!-- Row 3 -->
+                <button
+                  aria-label="7"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="7"
+                  type="button"
+                  >7</button
+                >
+                <button
+                  aria-label="8"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="8"
+                  type="button"
+                  >8</button
+                >
+                <button
+                  aria-label="9"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="9"
+                  type="button"
+                  >9</button
+                >
+                <button
+                  aria-label="Multiply"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="*"
+                  type="button"
+                  >×</button
+                >
+                <button
+                  aria-label="Logarithm base 10"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="log10"
+                  type="button"
+                  >log</button
+                >
+                <button
+                  aria-label="Natural logarithm"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="ln"
+                  type="button"
+                  >ln</button
+                >
+
+                <!-- Row 4 -->
+                <button
+                  aria-label="4"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="4"
+                  type="button"
+                  >4</button
+                >
+                <button
+                  aria-label="5"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="5"
+                  type="button"
+                  >5</button
+                >
+                <button
+                  aria-label="6"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="6"
+                  type="button"
+                  >6</button
+                >
+                <button
+                  aria-label="Minus"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="-"
+                  type="button"
+                  >−</button
+                >
+                <button
+                  aria-label="Pi"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="const"
+                  data-const="pi"
+                  type="button"
+                  >π</button
+                >
+                <button
+                  aria-label="Euler's number"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="const"
+                  data-const="e"
+                  type="button"
+                  >e</button
+                >
+
+                <!-- Row 5 -->
+                <button
+                  aria-label="1"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="1"
+                  type="button"
+                  >1</button
+                >
+                <button
+                  aria-label="2"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="2"
+                  type="button"
+                  >2</button
+                >
+                <button
+                  aria-label="3"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="3"
+                  type="button"
+                  >3</button
+                >
+                <button
+                  aria-label="Plus"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="+"
+                  type="button"
+                  >+</button
+                >
+                <button
+                  aria-label="Open e notation"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="e"
+                  type="button"
+                  >Exp</button
+                >
+                <button
+                  aria-label="Modulus"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="%"
+                  type="button"
+                  >mod</button
+                >
+
+                <!-- Row 6 -->
+                <button
+                  aria-label="Plus/minus toggle"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="toggle-sign"
+                  type="button"
+                  >±</button
+                >
+                <button
+                  aria-label="0"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="0"
+                  type="button"
+                  >0</button
+                >
+                <button
+                  aria-label="Decimal point"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="."
+                  type="button"
+                  >.</button
+                >
+                <button
+                  aria-label="Calculate"
+                  class="py-3 rounded-xl bg-gradient-to-r from-[#8adf9f] to-[#3db3a7] text-white font-semibold text-sm tracking-wide rounded-xl shadow-lg hover:brightness-110 col-span-2"
+                  data-action="calculate"
+                  type="button"
+                  >=</button
+                >
+              </div>
+            </section>
+          </section>
+        `;
+
+        // Initialize calculator functionality on this page
+        initCalculator();
+      }
+
+      // 404 page content
+      function loadNotFound() {
+        document.title = "Page Not Found";
+        contentEl.innerHTML = `
+          <section class="text-center p-10">
+            <h1 class="text-2xl font-semibold mb-4 dark:text-gray-300">404 - Page Not Found</h1>
+            <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">Sorry, the page you requested does not exist.</p>
+          </section>
+        `;
+      }
+
+      // Calculator functionality initialization
+      function initCalculator() {
+        const inputEl = document.getElementById("input");
+        const displayEl = document.getElementById("display");
+
+        // Initialize input with empty string
+        inputEl.value = "";
+
+        // Factorial function
+        function factorial(n) {
+          n = Number(n);
+          if (n < 0) return NaN;
+          if (n === 0 || n === 1) return 1;
+          let res = 1;
+          for (let i = 2; i <= n; i++) {
+            res *= i;
+          }
+          return res;
+        }
+
+        // Toggle sign of last number in input
+        function toggleSign() {
+          let val = inputEl.value;
+          if (!val) return;
+          // Find last number in input
+          const regex = /(-?\d+\.?\d*)$/;
+          const match = val.match(regex);
+          if (match) {
+            const num = match[1];
+            const toggled = num.startsWith("-") ? num.slice(1) : "-" + num;
+            inputEl.value = val.slice(0, match.index) + toggled;
+          }
+        }
+
+        // Insert constant value
+        function insertConstant(constName) {
+          if (constName === "pi") {
+            inputEl.value += Math.PI.toFixed(8);
+          } else if (constName === "e") {
+            inputEl.value += Math.E.toFixed(8);
+          }
+        }
+
+        // Insert function call with parentheses
+        function insertFunction(funcName) {
+          inputEl.value += funcName + "(";
+        }
+
+        // Clear all input and display
+        function allClear() {
+          inputEl.value = "";
+          displayEl.textContent = "0";
+        }
+
+        // Clear current input (like C)
+        function clearInput() {
+          inputEl.value = "";
+        }
+
+        // Backspace last character
+        function backspace() {
+          inputEl.value = inputEl.value.slice(0, -1);
+          if (inputEl.value === "") {
+            displayEl.textContent = "0";
+          }
+        }
+
+        // Safe evaluation of expression with math functions
+        function safeEval(expr) {
+          // Replace unicode division and multiplication signs with JS operators
+          expr = expr.replace(/÷/g, "/").replace(/×/g, "*");
+
+          // Replace mod with %
+          expr = expr.replace(/mod/g, "%");
+
+          // Replace ^ with **
+          expr = expr.replace(/\^/g, "**");
+
+          // Replace factorial notation n! with factorial(n)
+          expr = expr.replace(/(\d+)!/g, "factorial($1)");
+
+          // Replace constants π and e with Math.PI and Math.E
+          expr = expr.replace(/π/g, `(${Math.PI})`);
+          expr = expr.replace(/e(?![a-zA-Z0-9_])/g, `(${Math.E})`);
+
+          // Replace functions with Math equivalents
+          expr = expr.replace(/sin\(/g, "Math.sin(");
+          expr = expr.replace(/cos\(/g, "Math.cos(");
+          expr = expr.replace(/tan\(/g, "Math.tan(");
+          expr = expr.replace(/log10\(/g, "Math.log10(");
+          expr = expr.replace(/log\(/g, "Math.log10(");
+          expr = expr.replace(/ln\(/g, "Math.log(");
+          expr = expr.replace(/sqrt\(/g, "Math.sqrt(");
+
+          // Replace exp with e^ (exponential)
+          expr = expr.replace(/Exp/g, "**");
+
+          // Disallow any characters except digits, operators, parentheses, decimal point, letters for functions
+          if (/[^-()\d/*+.%!eπ^sinctaloglnrExp\s]/i.test(expr)) {
+            throw new Error("Invalid characters in expression");
+          }
+
+          // Define factorial function
+          function factorial(n) {
+            n = Number(n);
+            if (n < 0) return NaN;
+            if (n === 0 || n === 1) return 1;
+            let res = 1;
+            for (let i = 2; i <= n; i++) {
+              res *= i;
+            }
+            return res;
+          }
+
+          try {
+            // eslint-disable-next-line no-new-func
+            const func = new Function("factorial", `return ${expr}`);
+            return func(factorial);
+          } catch (e) {
+            throw new Error("Invalid expression");
+          }
+        }
+
+        // Calculate and update display
+        function calculate() {
+          try {
+            const expr = inputEl.value;
+            if (!expr) {
+              displayEl.textContent = "0";
+              return;
+            }
+            const result = safeEval(expr);
+            if (result === undefined || result === null || isNaN(result)) {
+              displayEl.textContent = "Error";
+            } else {
+              displayEl.textContent = result.toString();
+              inputEl.value = result.toString();
+            }
+          } catch (e) {
+            displayEl.textContent = "Error";
+          }
+        }
+
+        // Handle button actions
+        function handleAction(action, value, funcName, constName) {
+          switch (action) {
+            case "clear":
+              clearInput();
+              break;
+            case "all-clear":
+              allClear();
+              break;
+            case "backspace":
+              backspace();
+              break;
+            case "calculate":
+              calculate();
+              break;
+            case "func":
+              insertFunction(funcName);
+              break;
+            case "factorial":
+              inputEl.value += "!";
+              break;
+            case "const":
+              insertConstant(constName);
+              break;
+            case "toggle-sign":
+              toggleSign();
+              break;
+            default:
+              if (value !== null) {
+                inputEl.value += value;
+              }
+              break;
+          }
+        }
+
+        // Button click handler
+        document.querySelectorAll("button").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const val = btn.getAttribute("data-value");
+            const action = btn.getAttribute("data-action");
+            const funcName = btn.getAttribute("data-func");
+            const constName = btn.getAttribute("data-const");
+
+            handleAction(action, val, funcName, constName);
+          });
+        });
+
+        // Keyboard support
+        window.addEventListener("keydown", (e) => {
+          const allowedKeys = "0123456789+-*/().%";
+          if (allowedKeys.includes(e.key)) {
+            inputEl.value += e.key;
+          } else if (e.key === "Enter") {
+            e.preventDefault();
+            calculate();
+          } else if (e.key === "Backspace") {
+            backspace();
+          } else if (e.key.toLowerCase() === "c") {
+            clearInput();
+          } else if (e.key.toLowerCase() === "a") {
+            allClear();
+          }
+        });
+      }
+
+      // Load page content based on current URL path
+      function loadPage() {
+        const path = window.location.pathname.split("/").pop() || "index.html";
+        setActiveLink(path);
+
+        switch (path) {
+          case "index.html":
+          case "":
+            loadHome();
+            break;
+          case "financial.html":
+            loadFinancial();
+            break;
+          case "math.html":
+            loadMath();
+            break;
+          case "science.html":
+            loadScience();
+            break;
+          default:
+            loadNotFound();
+            break;
+        }
+      }
+
+      // Navigation active link highlight
+      function setActiveLink(path) {
+        navLinks.forEach((link) => {
+          if (link.getAttribute("href") === path) {
+            link.classList.add("active");
+            link.setAttribute("aria-current", "page");
+          } else {
+            link.classList.remove("active");
+            link.removeAttribute("aria-current");
+          }
+        });
+      }
+
+      // Home page content
+      function loadHome() {
+        document.title = "Home - Scientific Calculator";
+        contentEl.innerHTML = `
+          <section class="text-center p-10">
+            <h1 class="text-2xl font-semibold mb-4 dark:text-gray-300">Welcome to the Scientific Calculator App</h1>
+            <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">Use the navigation menu to access different calculators and tools.</p>
+          </section>
+        `;
+      }
+
+      // Financial page content (placeholder)
+      function loadFinancial() {
+        document.title = "Financial Calculator";
+        contentEl.innerHTML = `
+          <section class="text-center p-10">
+            <h1 class="text-2xl font-semibold mb-4 dark:text-gray-300">Financial Calculator</h1>
+            <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">This page is under construction. Please check back later for financial calculation tools.</p>
+          </section>
+        `;
+      }
+
+      // Math page content (placeholder)
+      function loadMath() {
+        document.title = "Math Calculator";
+        contentEl.innerHTML = `
+          <section class="text-center p-10">
+            <h1 class="text-2xl font-semibold mb-4 dark:text-gray-300">Math Calculator</h1>
+            <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">This page is under construction. Please check back later for math calculation tools.</p>
+          </section>
+        `;
+      }
+
+      // Scientific calculator page content (full calculator UI)
+      function loadScience() {
+        document.title = "Scientific Calculator";
+        contentEl.innerHTML = `
+          <section class="flex flex-col md:flex-row overflow-hidden">
+            <section
+              class="flex flex-col items-center justify-center flex-1 p-6 md:p-10 border-r border-[#e6e9e6] dark:border-[#334155] select-none"
+              id="result-section"
+            >
+              <img
+                alt="Outline icon of a scientific calculator with buttons and display"
+                class="w-36 h-36 mb-6"
+                height="150"
+                src="https://storage.googleapis.com/a1aa/image/710c4b05-3ec3-44ea-f855-4747427fc44e.jpg"
+                width="150"
+              />
+              <p class="text-gray-400 uppercase tracking-widest text-sm mb-1 dark:text-gray-400">
+                Result:
+              </p>
+              <p
+                class="text-green-500 font-semibold text-4xl md:text-5xl break-words text-center min-h-[3rem] w-full select-text dark:text-green-400"
+                id="display"
+                >0</p
+              >
+            </section>
+            <section
+              class="flex-1 p-4 md:p-8 flex flex-col space-y-5"
+              id="calculator-section"
+            >
+              <input
+                aria-label="Calculator input and result display"
+                class="w-full rounded-xl bg-[#f0f3f1] py-3 px-4 text-gray-700 font-semibold text-lg shadow-[inset_6px_6px_8px_#d9dcd9,inset_-6px_-6px_8px_#ffffff] focus:outline-none mb-4 select-text overflow-x-auto whitespace-nowrap dark:bg-[#1e293b] dark:text-gray-300 dark:shadow-[inset_6px_6px_8px_#0f172a,inset_-6px_-6px_8px_#334155]"
+                id="input"
+                readonly
+                type="text"
+              />
+              <div class="grid grid-cols-6 gap-4 text-gray-600 font-semibold text-sm select-none dark:text-gray-300">
+                <!-- Row 1 -->
+                <button
+                  aria-label="Clear"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="clear"
+                  type="button"
+                  >C</button
+                >
+                <button
+                  aria-label="All Clear"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="all-clear"
+                  type="button"
+                  >AC</button
+                >
+                <button
+                  aria-label="Backspace"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="backspace"
+                  type="button"
+                  ><i class="fas fa-backspace"></i
+                ></button>
+                <button
+                  aria-label="Open parenthesis"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="("
+                  type="button"
+                  >(</button
+                >
+                <button
+                  aria-label="Close parenthesis"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value=")"
+                  type="button"
+                  >)</button
+                >
+                <button
+                  aria-label="Divide"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="/"
+                  type="button"
+                  >÷</button
+                >
+
+                <!-- Row 2 -->
+                <button
+                  aria-label="sin"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="sin"
+                  type="button"
+                  >sin</button
+                >
+                <button
+                  aria-label="cos"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="cos"
+                  type="button"
+                  >cos</button
+                >
+                <button
+                  aria-label="tan"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="tan"
+                  type="button"
+                  >tan</button
+                >
+                <button
+                  aria-label="Exponent"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="**"
+                  type="button"
+                  >^</button
+                >
+                <button
+                  aria-label="Square root"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="sqrt"
+                  type="button"
+                  >√</button
+                >
+                <button
+                  aria-label="Factorial"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="factorial"
+                  type="button"
+                  >x!</button
+                >
+
+                <!-- Row 3 -->
+                <button
+                  aria-label="7"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="7"
+                  type="button"
+                  >7</button
+                >
+                <button
+                  aria-label="8"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="8"
+                  type="button"
+                  >8</button
+                >
+                <button
+                  aria-label="9"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="9"
+                  type="button"
+                  >9</button
+                >
+                <button
+                  aria-label="Multiply"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="*"
+                  type="button"
+                  >×</button
+                >
+                <button
+                  aria-label="Logarithm base 10"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="log10"
+                  type="button"
+                  >log</button
+                >
+                <button
+                  aria-label="Natural logarithm"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="func"
+                  data-func="ln"
+                  type="button"
+                  >ln</button
+                >
+
+                <!-- Row 4 -->
+                <button
+                  aria-label="4"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="4"
+                  type="button"
+                  >4</button
+                >
+                <button
+                  aria-label="5"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="5"
+                  type="button"
+                  >5</button
+                >
+                <button
+                  aria-label="6"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="6"
+                  type="button"
+                  >6</button
+                >
+                <button
+                  aria-label="Minus"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="-"
+                  type="button"
+                  >−</button
+                >
+                <button
+                  aria-label="Pi"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="const"
+                  data-const="pi"
+                  type="button"
+                  >π</button
+                >
+                <button
+                  aria-label="Euler's number"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="const"
+                  data-const="e"
+                  type="button"
+                  >e</button
+                >
+
+                <!-- Row 5 -->
+                <button
+                  aria-label="1"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="1"
+                  type="button"
+                  >1</button
+                >
+                <button
+                  aria-label="2"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="2"
+                  type="button"
+                  >2</button
+                >
+                <button
+                  aria-label="3"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="3"
+                  type="button"
+                  >3</button
+                >
+                <button
+                  aria-label="Plus"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="+"
+                  type="button"
+                  >+</button
+                >
+                <button
+                  aria-label="Open e notation"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="e"
+                  type="button"
+                  >Exp</button
+                >
+                <button
+                  aria-label="Modulus"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="%"
+                  type="button"
+                  >mod</button
+                >
+
+                <!-- Row 6 -->
+                <button
+                  aria-label="Plus/minus toggle"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-action="toggle-sign"
+                  type="button"
+                  >±</button
+                >
+                <button
+                  aria-label="0"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="0"
+                  type="button"
+                  >0</button
+                >
+                <button
+                  aria-label="Decimal point"
+                  class="py-3 rounded-xl neumorphic-inset hover:text-gray-800 dark:hover:text-green-400"
+                  data-value="."
+                  type="button"
+                  >.</button
+                >
+                <button
+                  aria-label="Calculate"
+                  class="py-3 rounded-xl bg-gradient-to-r from-[#8adf9f] to-[#3db3a7] text-white font-semibold text-sm tracking-wide rounded-xl shadow-lg hover:brightness-110 col-span-2"
+                  data-action="calculate"
+                  type="button"
+                  >=</button
+                >
+              </div>
+            </section>
+          </section>
+        `;
+
+        // Initialize calculator functionality on this page
+        initCalculator();
+      }
+
+      // 404 page content
+      function loadNotFound() {
+        document.title = "Page Not Found";
+        contentEl.innerHTML = `
+          <section class="text-center p-10">
+            <h1 class="text-2xl font-semibold mb-4 dark:text-gray-300">404 - Page Not Found</h1>
+            <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">Sorry, the page you requested does not exist.</p>
+          </section>
+        `;
+      }
+
+      // Load page content based on current URL path
+      loadPage();
+    })();
+  </script>
+</body>
+</html>
